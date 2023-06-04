@@ -13,7 +13,7 @@ interface Todo extends Models.Document {
   $id: string;
   $createdAt: string;
   title: string;
-  status: string;
+  status: TypedColumn;
   image?: string;
 }
 
