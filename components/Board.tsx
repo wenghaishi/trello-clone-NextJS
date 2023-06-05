@@ -15,7 +15,7 @@ function Board() {
   }, [getBoard]);
 
   const handleOnDragEnd = (result: DropResult) => {
-
+    
   }
 
   return (
