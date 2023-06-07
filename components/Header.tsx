@@ -15,12 +15,11 @@ function Header() {
 
   const [loading, setLoading] = useState<boolean>(false);
   const [suggestion, setSuggestion] = useState<string>("");
-  const [timerId, setTimerId] = useState<number | null | Timeout >(null);
+  const [timerId, setTimerId] = useState<number | null>(null);
   const [isTimerActive, setIsTimerActive] = useState<boolean>(false);
 
   useEffect(() => {
     if (board.columns.size === 0) return;
-
     setLoading(true);
 
     const fetchSuggestionFunc = async () => {
@@ -30,31 +29,7 @@ function Header() {
       console.log(suggestion);
     };
 
-    const handleBoardChange = () => {
-      if (!isTimerActive) {
-        // Start the timer if it's not active
-        const id = setTimeout(() => {
-          fetchSuggestionFunc();
-          setIsTimerActive(false);
-        }, 4000);
-        setTimerId(id);
-        setIsTimerActive(true);
-      } else {
-        // Restart the timer if it's active
-        clearTimeout(timerId);
-        const id = setTimeout(() => {
-          fetchSuggestionFunc();
-          setIsTimerActive(false);
-        }, 3000);
-        setTimerId(id);
-      }
-    };
-
-    handleBoardChange();
-
-    return () => {
-      clearTimeout(timerId);
-    };
+    fetchSuggestionFunc();
   }, [board]);
 
   return (

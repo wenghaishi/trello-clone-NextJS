@@ -121,8 +121,8 @@ export const useBoardStore = create<BoardState>((set, get) => ({
       return {
         board: {
           columns: newColumns,
-        }
-      }
+        },
+      };
     });
   },
 
