@@ -45,12 +45,12 @@ function Header() {
         const id = setTimeout(() => {
           fetchSuggestionFunc();
           setIsTimerActive(false);
-        }, 5000);
+        }, 3000);
         setTimerId(id);
       }
     };
 
-    // handleBoardChange();
+    handleBoardChange();
 
     return () => {
       clearTimeout(timerId);
