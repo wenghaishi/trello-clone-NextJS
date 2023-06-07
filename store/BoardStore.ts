@@ -8,6 +8,12 @@ interface BoardState {
   setBoardState: (board: Board) => void;
   updateTodoInDB: (todo: Todo, columnId: TypedColumn) => void;
 
+  newTaskInput: string;
+  setNewTaskInput: (input: string) => void;
+
+  newTaskType: TypedColumn;
+  setNewTaskType: (columnId: TypedColumn) => void;
+
   searchString: string;
   setSearchString: (searchString: string) => void;
 
@@ -47,6 +53,12 @@ export const useBoardStore = create<BoardState>((set, get) => ({
       todo.$id
     );
   },
+
+  newTaskInput: "",
+  setNewTaskInput: (input: string) => set({ newTaskInput: input }),
+
+  newTaskType: "todo",
+  setNewTaskType: (columnId: TypedColumn) => set({ newTaskType: columnId }),
 
   updateTodoInDB: async (todo, columnId) => {
     await databases.updateDocument(
