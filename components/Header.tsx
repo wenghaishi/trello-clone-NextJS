@@ -3,12 +3,60 @@ import Image from "next/image";
 import { MagnifyingGlassIcon, UserCircleIcon } from "@heroicons/react/24/solid";
 import Avatar from "react-avatar";
 import { useBoardStore } from "@/store/BoardStore";
+import { useEffect, useState } from "react";
+import fetchSuggestion from "@/lib/fetchSuggestion";
 
 function Header() {
-  const [searchString, setSearchString] = useBoardStore((state) => [
+  const [board, searchString, setSearchString] = useBoardStore((state) => [
+    state.board,
     state.searchString,
     state.setSearchString,
   ]);
+
+  const [loading, setLoading] = useState<boolean>(false);
+  const [suggestion, setSuggestion] = useState<string>("");
+  const [timerId, setTimerId] = useState<number | null | Timeout >(null);
+  const [isTimerActive, setIsTimerActive] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (board.columns.size === 0) return;
+
+    setLoading(true);
+
+    const fetchSuggestionFunc = async () => {
+      const suggestion = await fetchSuggestion(board);
+      setSuggestion(suggestion);
+      setLoading(false);
+      console.log(suggestion);
+    };
+
+    const handleBoardChange = () => {
+      if (!isTimerActive) {
+        // Start the timer if it's not active
+        const id = setTimeout(() => {
+          fetchSuggestionFunc();
+          setIsTimerActive(false);
+        }, 4000);
+        setTimerId(id);
+        setIsTimerActive(true);
+      } else {
+        // Restart the timer if it's active
+        clearTimeout(timerId);
+        const id = setTimeout(() => {
+          fetchSuggestionFunc();
+          setIsTimerActive(false);
+        }, 5000);
+        setTimerId(id);
+      }
+    };
+
+    // handleBoardChange();
+
+    return () => {
+      clearTimeout(timerId);
+    };
+  }, [board]);
+
   return (
     <header>
       <div className="flex flex-col md:flex-row items-center p-5 bg-gray-500/10 rounded-b-2xl">
@@ -41,8 +89,14 @@ function Header() {
       </div>
       <div className="flex items-center justify-center px-5 py-2 md:py-5">
         <p className="flex items-center text-sm font-light pr-5 shadow-xl rounded-xl w-fit bg-white italic max-w-3xl text-[#0055D1] p-5">
-          <UserCircleIcon className="inline-block h-10 w-10 text-[#0055D1] mr-1" />
-          GPT is summarising your day
+          <UserCircleIcon
+            className={`inline-block h-10 w-10 text-[#0055D1] mr-1 ${
+              loading && "animate-spin"
+            }`}
+          />
+          {suggestion && !loading
+            ? suggestion
+            : "GPT is summarising your tasks for the day..."}
         </p>
       </div>
     </header>
