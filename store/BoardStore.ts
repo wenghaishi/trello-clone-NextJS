@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { databases, storage, ID } from "@/appwrite";
-import { getTodosGroupedByColumn } from "../lib/getTodosGroupedByColumn";
+import { getTodosGroupedByColumn } from "@/lib/getTodosGroupedByColumn";
 import uploadImage from "@/lib/uploadImage";
 
 interface BoardState {
