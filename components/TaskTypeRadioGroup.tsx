@@ -5,7 +5,7 @@ import { CheckCircleIcon } from "@heroicons/react/24/solid";
 const types = [
   {
     id: "todo",
-    name: "Todo",
+    name: "To do",
     description: "A new task to be completed",
     color: "bg-red-500",
   },
@@ -24,7 +24,7 @@ const types = [
 ];
 
 function TaskTypeRadioGroup() {
-  const [setNewTaskType, newTaskType] = useBoardStore((state) => [
+  const [newTaskType, setNewTaskType ] = useBoardStore((state) => [
     state.newTaskType,
     state.setNewTaskType,
   ]);
@@ -33,9 +33,9 @@ function TaskTypeRadioGroup() {
       <div className="mx-auto w-full max-w-md">
         <RadioGroup
           value={newTaskType}
-          onChange={(e) => {
-            setNewTaskType(e);
-          }}
+          onChange={(e) => 
+            setNewTaskType(e)
+          }
         >
           <div className="space-y-2">
             {types.map((type) => (
@@ -45,7 +45,7 @@ function TaskTypeRadioGroup() {
                 className={({ active, checked }) =>
                   `${
                     active
-                      ? "ring-2 eing-white wing-opacity-60 ring-offset-2 ring-offset-sky-300"
+                      ? "ring-2 ring-white ring-opacity-60 ring-offset-2 ring-offset-sky-300"
                       : ""
                   } ${
                     checked
