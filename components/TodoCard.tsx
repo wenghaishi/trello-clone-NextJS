@@ -38,6 +38,7 @@ function TodoCard({
           setImageUrl(url.toString());
         }
       };
+      fetchImage();
     }
   });
 
