@@ -1,5 +1,7 @@
 # A trello clone with ChatGPT integration.
 
+Helps users to manage daily tasks and projects. 
+
 * Users can create tasks with the option of image upload. 
 
 * They can drag and drop tasks and columns around. 
